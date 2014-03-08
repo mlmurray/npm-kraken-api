@@ -1,6 +1,7 @@
 var request		= require('request');
 var crypto		= require('crypto');
 var querystring	= require('querystring');
+var moment = require('moment');
 
 /**
  * KrakenClient connects to the Kraken.com API
@@ -32,9 +33,15 @@ function KrakenClient(key, secret, otp) {
 			private: ['Balance', 'TradeBalance', 'OpenOrders', 'ClosedOrders', 'QueryOrders', 'TradesHistory', 'QueryTrades', 'OpenPositions', 'Ledgers', 'QueryLedgers', 'TradeVolume', 'AddOrder', 'CancelOrder']
 		};
 		if(methods.public.indexOf(method) !== -1) {
+			// insert a short wait to ensure we're not exceeding the API limits
+			var wait = +moment.duration(2.5, 'seconds');
+            wait;
 			return publicMethod(method, params, callback);
 		}
 		else if(methods.private.indexOf(method) !== -1) {
+			// insert a short wait to ensure we're not exceeding the API limits
+			var wait = +moment.duration(2.5, 'seconds');
+            wait;
 			return privateMethod(method, params, callback);
 		}
 		else {
